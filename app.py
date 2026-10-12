@@ -580,102 +580,81 @@ def request_blood():
 def find_donors():
 
     if "patient_id" not in session:
-
         return redirect("/login")
 
-
     patient_id = session["patient_id"]
-
 
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
+    try:
+        query = """
+            SELECT
+                br.request_id,
+                br.patient_id,
+                br.blood_group AS requested_blood_group,
+                br.units_required,
+                br.urgency,
+                CASE
+                    WHEN br.urgency = 'Critical' THEN 1
+                    WHEN br.urgency = 'Urgent' THEN 2
+                    ELSE 3
+                END AS urgency_priority,
+                br.hospital_name,
+                d.donor_id,
+                d.blood_group AS donor_blood_group,
+                d.phone AS donor_phone,
+                d.location AS donor_location,
+                d.age,
+                d.gender,
+                d.last_donation_date,
+                drm.distance_km
+            FROM blood_requests br
+            JOIN donors d
+                ON d.blood_group = br.blood_group
+            LEFT JOIN donor_request_matches drm
+                ON drm.request_id = br.request_id
+                AND drm.donor_id = d.donor_id
+            WHERE br.patient_id = %s
+                AND br.status = 'Pending'
+                AND d.availability = 'Available'
+                AND d.age BETWEEN 18 AND 65
+                AND (
+                    d.last_donation_date IS NULL
+                    OR d.last_donation_date <=
+                       DATE_SUB(CURDATE(), INTERVAL 90 DAY)
+                )
+            ORDER BY
+                urgency_priority ASC,
+                br.request_id ASC,
+                drm.distance_km ASC
+        """
 
-    # =====================================================
-    # GET COMPATIBLE DONORS
-    # =====================================================
+        cursor.execute(query, (patient_id,))
+        recommendations = cursor.fetchall()
 
-    
-query = """
-SELECT
-    br.request_id,
-    br.patient_id,
-    br.blood_group AS requested_blood_group,
-    br.units_required,
-    br.urgency,
-    CASE
-        WHEN br.urgency = 'Critical' THEN 1
-        WHEN br.urgency = 'Urgent' THEN 2
-        ELSE 3
-    END AS urgency_priority,
-    br.hospital_name,
-    d.donor_id,
-    d.blood_group AS donor_blood_group,
-    d.phone AS donor_phone,
-    d.location AS donor_location,
-    d.age,
-    d.gender,
-    d.last_donation_date,
-    drm.distance_km
-FROM blood_requests br
-JOIN donors d
-    ON d.blood_group = br.blood_group
-LEFT JOIN donor_request_matches drm
-    ON drm.request_id = br.request_id
-    AND drm.donor_id = d.donor_id
-WHERE br.patient_id = %s
-    AND br.status = 'Pending'
-    AND d.availability = 'Available'
-    AND d.age BETWEEN 18 AND 65
-    AND (
-        d.last_donation_date IS NULL
-        OR d.last_donation_date <= DATE_SUB(CURDATE(), INTERVAL 90 DAY)
-    )
-ORDER BY
-    urgency_priority ASC,
-    br.request_id ASC,
-    drm.distance_km ASC
-"""
+        current_request = None
+        rank = 0
 
+        for donor in recommendations:
+            if donor["request_id"] != current_request:
+                current_request = donor["request_id"]
+                rank = 1
+            else:
+                rank += 1
 
+            donor["rank"] = rank
 
-    cursor.execute(query, (patient_id,))
+        return render_template(
+            "find_donors.html",
+            recommendations=recommendations
+        )
 
-    recommendations = cursor.fetchall()
-
-
-    # =====================================================
-    # RANK DONORS FOR EACH REQUEST
-    # =====================================================
-
-    current_request = None
-    rank = 0
-
-
-    for donor in recommendations:
-
-        if donor["request_id"] != current_request:
-
-            current_request = donor["request_id"]
-
-            rank = 1
-
-        else:
-
-            rank += 1
+    finally:
+        cursor.close()
+        connection.close()
 
 
-        donor["rank"] = rank
-
-
-    cursor.close()
-    connection.close()
-
-
-    return render_template(
-        "find_donors.html",
-        recommendations=recommendations
-    )
 
 
 # =========================================================

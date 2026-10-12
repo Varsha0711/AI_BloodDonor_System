@@ -498,6 +498,8 @@ def request_blood():
         hospital = request.form["hospital_name"]
         location = request.form["location"]
         urgency = request.form["urgency"]
+        if urgency not in ("Normal", "Urgent", "Critical"):
+    urgency = "Normal"
 
         patient_id = session["patient_id"]
 

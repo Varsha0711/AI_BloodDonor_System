@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital Screening - LifeLink Admin</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background-color: #f5f7fb;
+
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            background-color: #17447e;
+
+            color: white;
+
+            padding: 20px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        .buttons {
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .button {
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            background-color: #315f96;
+
+            font-weight: bold;
+        }
+
+
+        .logout {
+
+            background-color: #c62828;
+        }
+
+
+        /* MAIN */
+
+        .container {
+
+            max-width: 1500px;
+
+            margin: auto;
+
+            padding: 35px;
+        }
+
+
+        .title {
+
+            margin-bottom: 25px;
+        }
+
+
+        .title h2 {
+
+            color: #17447e;
+
+            margin-bottom: 5px;
+        }
+
+
+        .title p {
+
+            color: #666;
+        }
+
+
+        /* TABLE */
+
+        .table-container {
+
+            background-color: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1200px;
+        }
+
+
+        th,
+        td {
+
+            padding: 12px;
+
+            border-bottom: 1px solid #ddd;
+
+            text-align: center;
+        }
+
+
+        th {
+
+            background-color: #17447e;
+
+            color: white;
+        }
+
+
+        tr:hover {
+
+            background-color: #f5f7fb;
+        }
+
+
+        /* STATUS */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 6px 12px;
+
+            border-radius: 15px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        .pending {
+
+            background-color: #fff3cd;
+
+            color: #856404;
+        }
+
+
+        .approved {
+
+            background-color: #d4edda;
+
+            color: #155724;
+        }
+
+
+        .rejected {
+
+            background-color: #f8d7da;
+
+            color: #721c24;
+        }
+
+
+        .unknown {
+
+            background-color: #e2e3e5;
+
+            color: #383d41;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #777;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            🩸  Admin
+        </h1>
+
+
+        <div class="buttons">
+
+            <a
+                href="/admin/dashboard"
+                class="button">
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="/admin/users"
+                class="button">
+
+                Users
+
+            </a>
+
+
+            <a
+                href="/admin/blood-requests"
+                class="button">
+
+                Blood Requests
+
+            </a>
+
+
+            <a
+                href="/admin/logout"
+                class="button logout">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="container">
+
+
+        <div class="title">
+
+            <h2>
+                🏥 Hospital Screening Records
+            </h2>
+
+            <p>
+                Monitor donor screening and hospital verification results.
+            </p>
+
+        </div>
+
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <tr>
+
+                    <th>
+                        Screening ID
+                    </th>
+
+                    <th>
+                        Request ID
+                    </th>
+
+                    <th>
+                        Donor ID
+                    </th>
+
+                    <th>
+                        Donor Name
+                    </th>
+
+                    <th>
+                        Donor Email
+                    </th>
+
+                    <th>
+                        Blood Group
+                    </th>
+
+                    <th>
+                        Units
+                    </th>
+
+                    <th>
+                        Hospital
+                    </th>
+
+                    <th>
+                        Location
+                    </th>
+
+                    <th>
+                        Urgency
+                    </th>
+
+                    <th>
+                        Screening Status
+                    </th>
+
+                    <th>
+                        Remarks
+                    </th>
+
+                    <th>
+                        Screened At
+                    </th>
+
+                </tr>
+
+
+                {% for screening in screenings %}
+
+
+                <tr>
+
+
+                    <td>
+                        {{ screening.screening_id }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.request_id }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.donor_id }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.donor_name or "Unknown" }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.donor_email or "N/A" }}
+                    </td>
+
+
+                    <td>
+                        <strong>
+                            {{ screening.blood_group or "N/A" }}
+                        </strong>
+                    </td>
+
+
+                    <td>
+                        {{ screening.units_required or "N/A" }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.hospital_name or "N/A" }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.location or "N/A" }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.urgency or "N/A" }}
+                    </td>
+
+
+                    <td>
+
+
+                        {% if screening.screening_status == "Pending" %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+
+                        {% elif screening.screening_status == "Approved" %}
+
+                            <span class="status approved">
+                                Approved
+                            </span>
+
+
+                        {% elif screening.screening_status == "Rejected" %}
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="status unknown">
+                                {{ screening.screening_status }}
+                            </span>
+
+                        {% endif %}
+
+
+                    </td>
+
+
+                    <td>
+                        {{ screening.remarks or "—" }}
+                    </td>
+
+
+                    <td>
+                        {{ screening.screened_at }}
+                    </td>
+
+
+                </tr>
+
+
+                {% else %}
+
+
+                <tr>
+
+                    <td
+                        colspan="13"
+                        class="empty">
+
+                        No hospital screening records found.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

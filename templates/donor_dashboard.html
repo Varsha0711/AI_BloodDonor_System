@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Donor Dashboard - LifeLink</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            margin: 0;
+            background-color: #f5f7fb;
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            background-color: #173f7a;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+
+        .header p {
+            margin-top: 8px;
+        }
+
+
+        /* MAIN DASHBOARD */
+
+        .dashboard {
+            max-width: 650px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 35px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+
+        .welcome {
+            text-align: center;
+        }
+
+
+        .welcome h2 {
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+
+        .welcome h3 {
+            color: #666;
+            font-weight: normal;
+        }
+
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 25px 0;
+        }
+
+
+        /* PROFILE */
+
+        .profile-title {
+            color: #173f7a;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+
+        .profile-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+
+        .profile-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            color: #555;
+        }
+
+
+        .profile-item:last-child {
+            border-bottom: none;
+        }
+
+
+        .profile-item strong {
+            color: #173f7a;
+        }
+
+
+        /* BUTTONS */
+
+        .button {
+            display: block;
+            width: 100%;
+
+            padding: 14px;
+            margin: 13px 0;
+
+            background-color: #173f7a;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            text-align: center;
+        }
+
+
+        .button:hover {
+            background-color: #0f2d5a;
+        }
+
+
+        /* NOTIFICATION */
+
+        .notification {
+            background-color: #e65100;
+        }
+
+
+        .notification:hover {
+            background-color: #bf4300;
+        }
+
+
+        /* BLOOD REQUEST */
+
+        .requests {
+            background-color: #2e7d32;
+        }
+
+
+        .requests:hover {
+            background-color: #256628;
+        }
+
+
+        /* LOGOUT */
+
+        .logout {
+            background-color: #c62828;
+            margin-top: 25px;
+        }
+
+
+        .logout:hover {
+            background-color: #a91f1f;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <h1>
+        🩸 Donor Dashboard
+    </h1>
+
+    <p>
+        AI-Powered Smart Blood Donor System
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div class="dashboard">
+
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>
+            Welcome, {{ donor_name }}!
+        </h2>
+
+        <h3>
+            Thank you for helping save lives ❤️
+        </h3>
+
+    </div>
+
+
+
+    <hr>
+
+
+
+    <!-- =====================================================
+         DONOR PROFILE
+    ===================================================== -->
+
+    <h3 class="profile-title">
+
+        👤 My Donor Profile
+
+    </h3>
+
+
+    <div class="profile-box">
+
+
+        <div class="profile-item">
+
+            <strong>🩸 Blood Group:</strong>
+
+            {{ donor.blood_group }}
+
+        </div>
+
+
+        <div class="profile-item">
+
+            <strong>🎂 Age:</strong>
+
+            {{ donor.age }}
+
+        </div>
+
+
+        <div class="profile-item">
+
+            <strong>⚧ Gender:</strong>
+
+            {{ donor.gender }}
+
+        </div>
+
+
+        <div class="profile-item">
+
+            <strong>📞 Phone:</strong>
+
+            {{ donor.phone }}
+
+        </div>
+
+
+        <div class="profile-item">
+
+            <strong>📍 Location:</strong>
+
+            {{ donor.location }}
+
+        </div>
+
+
+        <div class="profile-item">
+
+            <strong>📅 Last Donation:</strong>
+
+            {{ donor.last_donation_date }}
+
+        </div>
+
+
+        <div class="profile-item">
+
+            <strong>✅ Availability:</strong>
+
+            {{ donor.availability }}
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         ACTIONS
+    ===================================================== -->
+
+    <h3 class="profile-title">
+
+        What would you like to do?
+
+    </h3>
+
+
+
+    <!-- VIEW PROFILE -->
+
+    <a
+        href="/donor/dashboard"
+        class="button">
+
+        👤 View My Profile
+
+    </a>
+
+
+
+    <!-- UPDATE AVAILABILITY -->
+
+    <a
+        href="/donor/update-availability"
+        class="button">
+
+        🔄 Update Availability
+
+    </a>
+
+
+
+    <!-- NOTIFICATIONS -->
+
+    <a
+        href="/donor/notifications"
+        class="button notification">
+
+        🔔 View Notifications
+
+    </a>
+
+
+
+    <!-- BLOOD REQUESTS -->
+
+    <a
+        href="/donor/blood-requests"
+        class="button requests">
+
+        🩸 View Blood Requests
+
+    </a>
+
+
+
+    <!-- LOGOUT -->
+
+    <a
+        href="/"
+        class="button logout">
+
+        🚪 Logout
+
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Requests - LifeLink Admin</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background-color: #f5f7fb;
+
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            background-color: #17447e;
+
+            color: white;
+
+            padding: 20px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        .buttons {
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .button {
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            background-color: #315f96;
+
+            font-weight: bold;
+        }
+
+
+        .logout {
+
+            background-color: #c62828;
+        }
+
+
+        /* CONTAINER */
+
+        .container {
+
+            max-width: 1500px;
+
+            margin: auto;
+
+            padding: 35px;
+        }
+
+
+        h2 {
+
+            color: #17447e;
+
+            margin-bottom: 5px;
+        }
+
+
+        .subtitle {
+
+            color: #666;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* TABLE CONTAINER */
+
+        .table-container {
+
+            background-color: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 1100px;
+        }
+
+
+        th,
+        td {
+
+            padding: 12px;
+
+            border-bottom: 1px solid #ddd;
+
+            text-align: center;
+        }
+
+
+        th {
+
+            background-color: #17447e;
+
+            color: white;
+        }
+
+
+        tr:hover {
+
+            background-color: #f5f7fb;
+        }
+
+
+        /* STATUS */
+
+        .status {
+
+            padding: 6px 12px;
+
+            border-radius: 15px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            display: inline-block;
+        }
+
+
+        .pending {
+
+            background-color: #fff3cd;
+
+            color: #856404;
+        }
+
+
+        .fulfilled {
+
+            background-color: #d4edda;
+
+            color: #155724;
+        }
+
+
+        .cancelled {
+
+            background-color: #f8d7da;
+
+            color: #721c24;
+        }
+
+
+        .unknown {
+
+            background-color: #e2e3e5;
+
+            color: #383d41;
+        }
+
+
+        .empty {
+
+            text-align: center;
+
+            padding: 30px;
+
+            color: #777;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            🩸 LifeLink Admin
+        </h1>
+
+
+        <div class="buttons">
+
+            <a
+                href="/admin/dashboard"
+                class="button">
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="/admin/users"
+                class="button">
+
+                Users
+
+            </a>
+
+
+            <a
+                href="/admin/logout"
+                class="button logout">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="container">
+
+
+        <h2>
+            📋 Blood Request Management
+        </h2>
+
+
+        <p class="subtitle">
+
+            View and monitor all blood requests submitted by patients.
+
+        </p>
+
+
+
+        <div class="table-container">
+
+
+            <table>
+
+
+                <tr>
+
+                    <th>
+                        Request ID
+                    </th>
+
+                    <th>
+                        Patient
+                    </th>
+
+                    <th>
+                        Email
+                    </th>
+
+                    <th>
+                        Blood Group
+                    </th>
+
+                    <th>
+                        Units
+                    </th>
+
+                    <th>
+                        Hospital
+                    </th>
+
+                    <th>
+                        Location
+                    </th>
+
+                    <th>
+                        Urgency
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Created At
+                    </th>
+                    <th>
+    Action
+</th>
+
+                </tr>
+
+
+                {% for request in requests %}
+
+
+                <tr>
+
+                    <td>
+                        {{ request.request_id }}
+                    </td>
+
+
+                    <td>
+                        {{ request.patient_name or "Unknown" }}
+                    </td>
+
+
+                    <td>
+                        {{ request.patient_email or "N/A" }}
+                    </td>
+
+
+                    <td>
+                        <strong>
+                            {{ request.blood_group }}
+                        </strong>
+                    </td>
+
+
+                    <td>
+                        {{ request.units_required }}
+                    </td>
+
+
+                    <td>
+                        {{ request.hospital_name }}
+                    </td>
+
+
+                    <td>
+                        {{ request.location }}
+                    </td>
+
+
+                    <td>
+                        {{ request.urgency }}
+                    </td>
+
+
+                    <td>
+
+
+                        {% if request.status == "Pending" %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+
+                        {% elif request.status == "Fulfilled" %}
+
+                            <span class="status fulfilled">
+                                Fulfilled
+                            </span>
+
+
+                        {% elif request.status == "Cancelled" %}
+
+                            <span class="status cancelled">
+                                Cancelled
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="status unknown">
+                                {{ request.status }}
+                            </span>
+
+                        {% endif %}
+
+
+                    </td>
+
+
+                    <td>
+                        {{ request.created_at }}
+                    </td>
+                    <td>
+
+    {% if request.status == "Pending" %}
+
+        <form
+            action="/admin/blood-request/{{ request.request_id }}/fulfill"
+            method="POST">
+
+            <button
+                type="submit"
+                style="
+                    background-color: #2e7d32;
+                    color: white;
+                    border: none;
+                    padding: 8px 14px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-weight: bold;
+                "
+                onclick="return confirm(
+                    'Mark this blood request as fulfilled?'
+                );">
+
+                ✅ Mark Fulfilled
+
+            </button>
+
+        </form>
+<form
+    action="/admin/blood-request/{{ request.request_id }}/cancel"
+    method="POST"
+    style="margin-top: 8px;">
+
+    <button
+        type="submit"
+        style="
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        "
+        onclick="return confirm(
+            'Cancel this blood request?'
+        );">
+
+        ❌ Cancel
+
+    </button>
+
+</form>
+    {% else %}
+
+        <span style="color: #777;">
+            No Action
+        </span>
+
+    {% endif %}
+
+</td>
+
+                </tr>
+
+
+                {% else %}
+
+
+                <tr>
+
+                    <td
+                        colspan="11"
+                        class="empty">
+
+                        No blood requests found.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

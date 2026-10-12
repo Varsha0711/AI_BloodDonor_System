@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Login - Blood Donation System</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f5f7fb;
+        }
+
+        .login-box {
+            width: 380px;
+            padding: 35px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            margin-bottom: 18px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        /* LOGIN BUTTON */
+
+        .login-button {
+            display: block;
+            width: 50%;
+            margin: 10px auto 25px auto;
+            padding: 11px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #17447e;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+
+        .login-button:hover {
+            background-color: #123663;
+        }
+
+        /* REGISTER SECTION */
+
+        .register-section {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .register-section p {
+            margin-bottom: 12px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .register-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .register-button {
+            padding: 10px 14px;
+            text-decoration: none;
+            border: 1px solid #17447e;
+            color: #17447e;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .register-button:hover {
+            background-color: #17447e;
+            color: white;
+        }
+
+        /* BACK BUTTON */
+
+        .back {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 9px 20px;
+            text-decoration: none;
+            background-color: #eee;
+            color: #333;
+            border-radius: 6px;
+        }
+
+        .back-button:hover {
+            background-color: #ddd;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="login-box">
+
+        <h1>Login</h1>
+
+
+        <form action="/login" method="POST">
+
+            <label>Email:</label>
+
+            <input
+                type="email"
+                name="email"
+                required
+            >
+
+
+            <label>Password:</label>
+
+            <input
+                type="password"
+                name="password"
+                required
+            >
+
+
+            <label>Login As:</label>
+
+            <select name="role" required>
+
+                <option value="">
+                    -- Select Role --
+                </option>
+
+                <option value="patient">
+                    Patient
+                </option>
+
+                <option value="donor">
+                    Donor
+                </option>
+
+                <option value="hospital">
+                    Hospital
+                </option>
+<option value="admin">
+    Admin
+</option>
+            </select>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-button">
+
+                LOGIN
+
+            </button>
+
+        </form>
+
+
+        <!-- REGISTER OPTIONS -->
+
+        <div class="register-section">
+
+            <p>
+                Don't have an account?
+            </p>
+
+            <div class="register-buttons">
+
+                <a
+                    href="/donor/register"
+                    class="register-button">
+
+                    Register as Donor
+
+                </a>
+
+
+                <a
+                    href="/patient/register"
+                    class="register-button">
+
+                    Register as Patient
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- BACK TO HOME -->
+
+        <div class="back">
+
+            <a
+                href="/"
+                class="back-button">
+
+                Back to Home
+
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

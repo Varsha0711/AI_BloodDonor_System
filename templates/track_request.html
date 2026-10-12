@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Blood Requests - LifeLink</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff5f5, #f7f9fc);
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            width: 100%;
+            background: linear-gradient(135deg, #a90000, #e63946);
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+        }
+
+        .brand p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #a90000;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: #ffeaea;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 45px auto;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .heading-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #ffe4e4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+        }
+
+        .page-heading h2 {
+            color: #a90000;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #777;
+            font-size: 15px;
+        }
+
+        /* =========================
+           REQUEST CARD
+        ========================= */
+
+        .request-card {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            padding: 28px 30px;
+            box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eeeeee;
+            transition: 0.3s;
+        }
+
+        .request-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        /* =========================
+           REQUEST HEADER
+        ========================= */
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #eeeeee;
+            margin-bottom: 20px;
+        }
+
+        .request-number {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .request-number-icon {
+            width: 40px;
+            height: 40px;
+            background: #ffe5e5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .request-number h3 {
+            color: #a90000;
+            font-size: 21px;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fff4d6;
+            color: #9a6b00;
+        }
+
+        .status-approved {
+            background: #e2f7e8;
+            color: #218838;
+        }
+
+        .status-fulfilled {
+            background: #dff5ff;
+            color: #0077a8;
+        }
+
+        .status-rejected {
+            background: #ffe1e1;
+            color: #c62828;
+        }
+
+        /* =========================
+           DETAILS GRID
+        ========================= */
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .detail {
+            background: #fafafa;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #eeeeee;
+        }
+
+        .detail-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .detail-icon {
+            margin-right: 5px;
+        }
+
+        /* =========================
+           REQUEST DATE
+        ========================= */
+
+        .request-date {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eeeeee;
+            font-size: 13px;
+            color: #888;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-card {
+            background: white;
+            border-radius: 16px;
+            padding: 55px 30px;
+            text-align: center;
+            box-shadow: 0 7px 25px rgba(0, 0, 0, 0.07);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .empty-card h3 {
+            color: #555;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .empty-card p {
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .brand h1 {
+                font-size: 20px;
+            }
+
+            .brand p {
+                display: none;
+            }
+
+            .back-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .page-heading h2 {
+                font-size: 25px;
+            }
+
+            .request-card {
+                padding: 22px 18px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .request-header {
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🩸
+            </div>
+
+            <div>
+                <h1>LifeLink</h1>
+                <p>Smart Blood Donor System</p>
+            </div>
+
+        </div>
+
+        <a href="/patient/dashboard" class="back-btn">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="container">
+
+        <div class="page-heading">
+
+            <div class="heading-icon">
+                📋
+            </div>
+
+            <h2>Track My Blood Requests</h2>
+
+            <p>
+                Monitor the status and progress of your blood requests.
+            </p>
+
+        </div>
+
+
+        {% if requests %}
+
+            {% for request in requests %}
+
+                <div class="request-card">
+
+                    <!-- REQUEST HEADER -->
+
+                    <div class="request-header">
+
+                        <div class="request-number">
+
+                            <div class="request-number-icon">
+                                🩸
+                            </div>
+
+                            <h3>
+                                Request #{{ request.request_id }}
+                            </h3>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        {% if request.status == "Pending" %}
+
+                            <span class="status status-pending">
+                                Pending
+                            </span>
+
+                        {% elif request.status == "Approved" %}
+
+                            <span class="status status-approved">
+                                Approved
+                            </span>
+
+                        {% elif request.status == "Fulfilled" %}
+
+                            <span class="status status-fulfilled">
+                                Fulfilled
+                            </span>
+
+                        {% elif request.status == "Rejected" %}
+
+                            <span class="status status-rejected">
+                                Rejected
+                            </span>
+
+                        {% else %}
+
+                            <span class="status status-pending">
+                                {{ request.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- REQUEST DETAILS -->
+
+                    <div class="details-grid">
+
+
+                        <div class="detail">
+
+                            <div class="detail-label">
+                                🩸 Blood Group
+                            </div>
+
+                            <div class="detail-value">
+                                {{ request.blood_group }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <div class="detail-label">
+                                💉 Units Required
+                            </div>
+
+                            <div class="detail-value">
+                                {{ request.units_required }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <div class="detail-label">
+                                🏥 Hospital
+                            </div>
+
+                            <div class="detail-value">
+                                {{ request.hospital_name }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <div class="detail-label">
+                                📍 Location
+                            </div>
+
+                            <div class="detail-value">
+                                {{ request.location }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <div class="detail-label">
+                                ⚠️ Urgency
+                            </div>
+
+                            <div class="detail-value">
+                                {{ request.urgency }}
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- DATE -->
+
+                    <div class="request-date">
+
+                        🕒
+                        <strong>Request Date:</strong>
+                        {{ request.created_at }}
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-card">
+
+                <div class="empty-icon">
+                    📋
+                </div>
+
+                <h3>No Blood Requests Yet</h3>
+
+                <p>
+                    You have not submitted any blood requests.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- FOOTER -->
+
+    <div class="footer">
+        © 2026 LifeLink — AI-Powered Smart Blood Donor System
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+# =========================
+# DONOR DASHBOARD
+# =========================
+
+@app.route("/donor/dashboard")
+def donor_dashboard():
+
+    if "donor_user_id" not in session:
+        return redirect("/donor/login")
+
+    user_id = session["donor_user_id"]
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    query = """
+    SELECT
+        donor_id,
+        blood_group,
+        age,
+        gender,
+        phone,
+        location,
+        last_donation_date,
+        availability
+    FROM donors
+    WHERE user_id = %s
+    """
+
+    cursor.execute(query, (user_id,))
+
+    donor = cursor.fetchone()
+
+    cursor.close()
+    connection.close()
+
+    if not donor:
+        return "Donor profile not found!"
+
+    return render_template(
+        "donor_dashboard.html",
+        donor=donor,
+        donor_name=session["donor_name"]
+    )

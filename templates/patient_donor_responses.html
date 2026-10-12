@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Donor Responses</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .response-card {
+            background-color: white;
+            width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .status {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>🩸 Donor Responses</h1>
+
+
+    {% if responses %}
+
+        {% for response in responses %}
+
+            <div class="response-card">
+
+                <h2>Donor Details</h2>
+
+                <p>
+                    <strong>Request ID:</strong>
+                    {{ response.request_id }}
+                </p>
+
+                <p>
+                    <strong>Donor Name:</strong>
+                    {{ response.donor_name }}
+                </p>
+
+                <p>
+                    <strong>Blood Group:</strong>
+                    {{ response.blood_group }}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    {{ response.phone }}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ response.donor_email }}
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ response.location }}
+                </p>
+
+                <p>
+                    <strong>Age:</strong>
+                    {{ response.age }}
+                </p>
+
+                <p>
+                    <strong>Gender:</strong>
+                    {{ response.gender }}
+                </p>
+
+               <p class="status">
+    Response:
+    {{ response.response_status }}
+</p>
+
+{% if response.response_status == "Interested" %}
+
+    <form
+        action="/patient/select-donor/{{ response.response_id }}"
+        method="POST"
+    >
+
+        <button type="submit">
+            Select Donor
+        </button>
+
+    </form>
+
+{% elif response.response_status == "Accepted" %}
+
+    <p>
+        <strong>✅ Donor Selected</strong>
+    </p>
+
+{% elif response.response_status == "Rejected" %}
+
+    <p>
+        ❌ Donor Not Selected
+    </p>
+
+{% endif %}
+<style>
+
+    .accepted {
+        color: green;
+        font-weight: bold;
+    }
+
+    .rejected {
+        color: red;
+        font-weight: bold;
+    }
+
+</style>
+
+                <p>
+                    <strong>Responded On:</strong>
+                    {{ response.responded_at }}
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="response-card">
+
+            <h3>No donor responses yet.</h3>
+
+            <p>
+                Donor responses will appear here when a donor
+                chooses "I Can Donate" for your request.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="back">
+
+        <a href="/patient/dashboard">
+
+            <button type="button">
+                Back to Patient Dashboard
+            </button>
+
+        </a>
+
+    </div>
+
+</body>
+
+</html>

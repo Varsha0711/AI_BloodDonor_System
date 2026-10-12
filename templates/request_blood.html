@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Request Blood - LifeLink</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fff5f5, #f7f9fc);
+            color: #333;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            width: 100%;
+            background: linear-gradient(135deg, #a90000, #e63946);
+            color: white;
+            padding: 20px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        .brand p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .back-dashboard {
+            text-decoration: none;
+            color: #a90000;
+            background: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .back-dashboard:hover {
+            background: #ffeaea;
+            transform: translateY(-2px);
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+
+        .main-container {
+            width: 90%;
+            max-width: 850px;
+            margin: 45px auto;
+        }
+
+        .page-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-heading .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #ffe4e4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+        }
+
+        .page-heading h2 {
+            color: #a90000;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #777;
+            font-size: 15px;
+        }
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .form-card {
+            background: white;
+            border-radius: 18px;
+            padding: 35px 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.09);
+            border: 1px solid #f0eeee;
+        }
+
+        .form-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .form-title span {
+            font-size: 22px;
+        }
+
+        .form-title h3 {
+            color: #444;
+            font-size: 19px;
+        }
+
+        /* =========================
+           FORM GROUPS
+        ========================= */
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 17px;
+            pointer-events: none;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 48px;
+            border: 1px solid #d9d9d9;
+            border-radius: 9px;
+            padding: 0 15px;
+            font-size: 15px;
+            color: #333;
+            background: #fff;
+            outline: none;
+            transition: 0.25s;
+        }
+
+        .input-wrapper input,
+        .input-wrapper select {
+            padding-left: 45px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #d62839;
+            box-shadow: 0 0 0 3px rgba(214, 40, 57, 0.10);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        /* =========================
+           TWO COLUMN SECTION
+        ========================= */
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* =========================
+           URGENCY
+        ========================= */
+
+        .urgency-note {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* =========================
+           SUBMIT BUTTON
+        ========================= */
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+            height: 52px;
+            margin-top: 8px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #b30000, #e63946);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(179, 0, 0, 0.20);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(179, 0, 0, 0.28);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* =========================
+           INFORMATION BOX
+        ========================= */
+
+        .info-box {
+            margin-top: 25px;
+            padding: 16px 18px;
+            background: #fff7f7;
+            border: 1px solid #ffdede;
+            border-radius: 10px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .info-box .info-icon {
+            font-size: 20px;
+        }
+
+        .info-box p {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .brand h1 {
+                font-size: 20px;
+            }
+
+            .brand p {
+                display: none;
+            }
+
+            .back-dashboard {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .main-container {
+                width: 94%;
+                margin: 30px auto;
+            }
+
+            .form-card {
+                padding: 25px 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .page-heading h2 {
+                font-size: 25px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🩸
+            </div>
+
+            <div>
+                <h1>LifeLink</h1>
+                <p>Smart Blood Donor System</p>
+            </div>
+
+        </div>
+
+        <a href="/patient/dashboard" class="back-dashboard">
+            ← Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main-container">
+
+        <div class="page-heading">
+
+            <div class="icon">
+                🩸
+            </div>
+
+            <h2>Request Blood</h2>
+
+            <p>
+                Submit your blood requirement and let LifeLink help find suitable donors.
+            </p>
+
+        </div>
+
+
+        <!-- FORM CARD -->
+
+        <div class="form-card">
+
+            <div class="form-title">
+                <span>📋</span>
+                <h3>Blood Request Details</h3>
+            </div>
+
+
+            <form method="POST" action="/patient/request-blood">
+
+
+                <!-- BLOOD GROUP -->
+
+                <div class="form-group">
+
+                    <label for="blood_group">
+                        Blood Group
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🩸
+                        </span>
+
+                        <select id="blood_group" name="blood_group" required>
+
+                            <option value="">
+                                Select Blood Group
+                            </option>
+
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- UNITS + URGENCY -->
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="units_required">
+                            Units Required
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                💉
+                            </span>
+
+                            <input
+                                type="number"
+                                id="units_required"
+                                name="units_required"
+                                min="1"
+                                placeholder="Enter number of units"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="urgency">
+                            Urgency
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <span class="input-icon">
+                                ⚠️
+                            </span>
+
+                            <select id="urgency" name="urgency" required>
+
+                                <option value="">
+                                    Select Urgency
+                                </option>
+
+                                <option value="Critical">
+                                    Critical
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                                <option value="Medium">
+                                    Medium
+                                </option>
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- HOSPITAL -->
+
+                <div class="form-group">
+
+                    <label for="hospital_name">
+                        Hospital Name
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🏥
+                        </span>
+
+                        <input
+                            type="text"
+                            id="hospital_name"
+                            name="hospital_name"
+                            placeholder="Enter hospital name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label for="location">
+                        Hospital Location
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            📍
+                        </span>
+
+                        <input
+                            type="text"
+                            id="location"
+                            name="location"
+                            placeholder="Enter hospital location"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="urgency-note">
+                        Enter the hospital location registered in the system.
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button type="submit" class="submit-btn">
+                    🩸 Submit Blood Request
+                </button>
+
+
+                <!-- INFO -->
+
+                <div class="info-box">
+
+                    <div class="info-icon">
+                        ℹ️
+                    </div>
+
+                    <p>
+                        After submitting your request, LifeLink will use the request
+                        details to identify suitable blood donors and help speed up
+                        the emergency response process.
+                    </p>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+        © 2026 LifeLink — AI-Powered Smart Blood Donor System
+    </div>
+
+</body>
+
+</html>

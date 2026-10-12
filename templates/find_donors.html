@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Recommended Blood Donors</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .request-section {
+            background-color: white;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .critical {
+            border-left: 8px solid red;
+        }
+
+        .urgent {
+            border-left: 8px solid orange;
+        }
+
+        .normal {
+            border-left: 8px solid green;
+        }
+
+        .urgency {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .donor-card {
+            background-color: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .best-match {
+            border: 3px solid green;
+        }
+
+        .rank {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .donor-details {
+            line-height: 1.8;
+        }
+
+        .distance {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .no-donor {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .back-button {
+            text-align: center;
+            margin: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Recommended Blood Donors</h1>
+
+    {% if recommendations %}
+
+        {% set current_request = None %}
+
+        {% for donor in recommendations %}
+
+            {% if donor.request_id != current_request %}
+
+                {% set current_request = donor.request_id %}
+
+                <div class="request-section
+                    {% if donor.urgency == 'Critical' %}
+                        critical
+                    {% elif donor.urgency == 'Urgent' %}
+                        urgent
+                    {% else %}
+                        normal
+                    {% endif %}
+                ">
+
+                    <h2>
+                        Blood Request #{{ donor.request_id }}
+                    </h2>
+
+                    {% if donor.urgency == 'Critical' %}
+
+                        <p class="urgency">
+                            🔴 CRITICAL REQUEST
+                        </p>
+
+                    {% elif donor.urgency == 'Urgent' %}
+
+                        <p class="urgency">
+                            🟠 URGENT REQUEST
+                        </p>
+
+                    {% else %}
+
+                        <p class="urgency">
+                            🟢 NORMAL REQUEST
+                        </p>
+
+                    {% endif %}
+
+                    <p>
+                        <strong>Required Blood Group:</strong>
+                        {{ donor.requested_blood_group }}
+                    </p>
+
+                    <p>
+                        <strong>Units Required:</strong>
+                        {{ donor.units_required }}
+                    </p>
+
+                    <p>
+                        <strong>Hospital:</strong>
+                        {{ donor.hospital_name }}
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+            <div class="donor-card
+                {% if donor.rank == 1 %}
+                    best-match
+                {% endif %}
+            ">
+
+                {% if donor.rank == 1 %}
+
+                    <div class="rank">
+                        🥇 Rank 1 - Best Match
+                    </div>
+
+                {% elif donor.rank == 2 %}
+
+                    <div class="rank">
+                        🥈 Rank 2
+                    </div>
+
+                {% elif donor.rank == 3 %}
+
+                    <div class="rank">
+                        🥉 Rank 3
+                    </div>
+
+                {% else %}
+
+                    <div class="rank">
+                        Rank {{ donor.rank }}
+                    </div>
+
+                {% endif %}
+
+
+                <div class="donor-details">
+
+                    <p>
+                        <strong>Donor ID:</strong>
+                        {{ donor.donor_id }}
+                    </p>
+
+                    <p>
+                        <strong>Blood Group:</strong>
+                        {{ donor.donor_blood_group }}
+                    </p>
+
+                    <p>
+                        <strong>Location:</strong>
+                        {{ donor.donor_location }}
+                    </p>
+
+                    <p class="distance">
+                        📍 Distance from Hospital:
+                        {{ donor.distance_km }} km
+                    </p>
+
+                    <p>
+                        <strong>Phone:</strong>
+                        {{ donor.donor_phone }}
+                    </p>
+                    <a href="tel:{{ donor.donor_phone }}">
+    <button type="button">📞 Contact Donor</button>
+</a>
+
+                    <p>
+                        <strong>Age:</strong>
+                        {{ donor.age }}
+                    </p>
+
+                    <p>
+                        <strong>Gender:</strong>
+                        {{ donor.gender }}
+                    </p>
+
+                    <p>
+                        <strong>Last Donation:</strong>
+                        {{ donor.last_donation_date }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="no-donor">
+
+            <h2>No Compatible Donors Found</h2>
+
+            <p>
+                Currently there are no eligible and available
+                donors matching your blood request.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="back-button">
+
+        <a href="/patient/dashboard">
+            <button type="button">
+                Back to Dashboard
+            </button>
+        </a>
+
+    </div>
+
+</body>
+
+</html>

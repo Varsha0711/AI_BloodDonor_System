@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Update Availability</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .box {
+            width: 400px;
+            margin: auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back {
+            margin-top: 15px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1>Update Availability</h1>
+
+        <form action="/donor/update-availability" method="POST">
+
+            <label>
+                <strong>Availability:</strong>
+            </label>
+
+            <select name="availability" required>
+
+                <option
+                    value="Available"
+                    {% if availability == "Available" %}
+                    selected
+                    {% endif %}
+                >
+                    🟢 Available
+                </option>
+
+                <option
+                    value="Unavailable"
+                    {% if availability == "Unavailable" %}
+                    selected
+                    {% endif %}
+                >
+                    🔴 Unavailable
+                </option>
+
+            </select>
+
+            <button type="submit">
+                Update Availability
+            </button>
+
+        </form>
+
+        <div class="back">
+
+            <a href="/donor/dashboard">
+                <button type="button">
+                    Back to Dashboard
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

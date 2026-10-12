@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Dashboard - LifeLink</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            margin: 0;
+            background-color: #f5f7fb;
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        .header {
+            background-color: #173f7a;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+
+        .header p {
+            margin-top: 8px;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .dashboard {
+            max-width: 650px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 35px;
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.08);
+        }
+
+
+        .welcome {
+            text-align: center;
+        }
+
+
+        .welcome h2 {
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+
+        .welcome h3 {
+            color: #666;
+            font-weight: normal;
+        }
+
+
+        hr {
+            border: 0;
+            border-top: 1px solid #ddd;
+            margin: 25px 0;
+        }
+
+
+        /* BUTTONS */
+
+        .button {
+            display: block;
+            width: 100%;
+
+            padding: 14px;
+            margin: 13px 0;
+
+            background-color: #173f7a;
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 7px;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            text-align: center;
+        }
+
+
+        .button:hover {
+            background-color: #0f2d5a;
+        }
+
+
+        /* NOTIFICATION BUTTON */
+
+        .notification {
+            background-color: #e65100;
+        }
+
+
+        .notification:hover {
+            background-color: #bf4300;
+        }
+
+
+        /* NEW BADGE */
+
+        .badge {
+            background-color: #dc3545;
+
+            color: white;
+
+            padding: 4px 9px;
+
+            border-radius: 15px;
+
+            font-size: 12px;
+
+            margin-left: 8px;
+
+            vertical-align: middle;
+        }
+
+
+        /* LOGOUT */
+
+        .logout {
+            background-color: #c62828;
+            margin-top: 25px;
+        }
+
+
+        .logout:hover {
+            background-color: #a91f1f;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<div class="header">
+
+    <h1>
+        🩸 Patient Dashboard
+    </h1>
+
+    <p>
+        AI-Powered Smart Blood Donor System
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<div class="dashboard">
+
+
+    <div class="welcome">
+
+        <h2>
+            Welcome, {{ patient_name }}!
+        </h2>
+
+        <h3>
+            What would you like to do?
+        </h3>
+
+    </div>
+
+
+    <hr>
+
+
+
+    <!-- =====================================================
+         NOTIFICATIONS
+    ===================================================== -->
+
+    <a
+        href="/patient/notifications"
+        class="button notification">
+
+        🔔 Notifications
+
+        <span class="badge">
+            NEW
+        </span>
+
+    </a>
+
+
+
+    <!-- =====================================================
+         REQUEST BLOOD
+    ===================================================== -->
+
+    <a
+        href="/patient/request-blood"
+        class="button">
+
+        🩸 Request Blood
+
+    </a>
+
+
+
+    <!-- =====================================================
+         TRACK REQUEST
+    ===================================================== -->
+
+    <a
+        href="/patient/track-request"
+        class="button">
+
+        📋 Track My Request
+
+    </a>
+
+
+
+    
+
+    <!-- =====================================================
+         BLOOD INVENTORY
+    ===================================================== -->
+
+    <a
+        href="/patient/blood-inventory"
+        class="button">
+
+        🩸 View Blood Inventory
+
+    </a>
+
+
+
+    <!-- =====================================================
+         FIND RECOMMENDED DONORS
+    ===================================================== -->
+
+    <a
+        href="/patient/find-donors"
+        class="button">
+
+        👥 Find Recommended Donors
+
+    </a>
+
+
+
+    <!-- =====================================================
+         DONOR RESPONSES
+    ===================================================== -->
+
+    <a
+        href="/patient/donor-responses"
+        class="button">
+
+        💬 View Donor Responses
+
+    </a>
+
+
+
+    <!-- =====================================================
+         LOGOUT
+    ===================================================== -->
+
+    <a
+        href="/"
+        class="button logout">
+
+        🚪 Logout
+
+    </a>
+
+
+</div>
+
+
+</body>
+
+</html>

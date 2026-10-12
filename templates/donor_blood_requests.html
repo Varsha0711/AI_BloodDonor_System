@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Compatible Blood Requests</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .donor-info {
+            background-color: white;
+            padding: 15px;
+            margin: 20px auto;
+            width: 700px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .request-card {
+            background-color: white;
+            padding: 20px;
+            margin: 20px auto;
+            width: 700px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .critical {
+            border-left: 8px solid #d32f2f;
+        }
+
+        .urgent {
+            border-left: 8px solid #ff9800;
+        }
+
+        .normal {
+            border-left: 8px solid #4caf50;
+        }
+
+        .critical-text {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .urgent-text {
+            color: #ff9800;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .normal-text {
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .message {
+            background-color: white;
+            padding: 25px;
+            margin: 30px auto;
+            width: 700px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .back-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>🩸 Compatible Blood Requests</h1>
+
+
+    {% if donor %}
+
+    <div class="donor-info">
+
+        <p>
+            <strong>Your Blood Group:</strong>
+            {{ donor.blood_group }}
+        </p>
+
+        <p>
+            <strong>Your Location:</strong>
+            {{ donor.location }}
+        </p>
+
+        <p>
+            <strong>Availability:</strong>
+            {{ donor.availability }}
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+    {% if message %}
+
+        <div class="message">
+
+            <h3>🔴 Currently Unavailable</h3>
+
+            <p>
+                {{ message }}
+            </p>
+
+            <p>
+                Please update your availability from the
+                donor dashboard if you want to donate.
+            </p>
+
+        </div>
+
+
+    {% elif requests %}
+
+
+        {% for req in requests %}
+
+
+            {% if req.urgency == "Critical" %}
+
+                <div class="request-card critical">
+
+                    <div class="critical-text">
+                        🔴 CRITICAL REQUEST
+                    </div>
+
+
+            {% elif req.urgency == "Urgent" %}
+
+                <div class="request-card urgent">
+
+                    <div class="urgent-text">
+                        🟠 URGENT REQUEST
+                    </div>
+
+
+            {% else %}
+
+                <div class="request-card normal">
+
+                    <div class="normal-text">
+                        🟢 NORMAL REQUEST
+                    </div>
+
+            {% endif %}
+
+
+                <p>
+                    <strong>Request ID:</strong>
+                    {{ req.request_id }}
+                </p>
+
+
+                <p>
+                    <strong>Required Blood Group:</strong>
+                    {{ req.blood_group }}
+                </p>
+
+
+                <p>
+                    <strong>Units Required:</strong>
+                    {{ req.units_required }}
+                </p>
+
+
+                <p>
+                    <strong>Hospital:</strong>
+                    {{ req.hospital_name }}
+                </p>
+
+
+                <p>
+                    <strong>Location:</strong>
+                    {{ req.location }}
+                </p>
+
+                <p>
+                    <strong>Distance from You:</strong>
+                    {{ "%.2f"|format(req.distance_km) }} km
+                </p>
+
+
+                <p>
+                    <strong>Urgency:</strong>
+                    {{ req.urgency }}
+                </p>
+
+
+                <p>
+                    <strong>Status:</strong>
+                    {{ req.status }}
+                </p>
+                <form action="/donor/respond/{{ req.request_id }}" method="POST">
+
+    <button type="submit">
+        I Can Donate
+    </button>
+
+</form>
+
+
+                <p>
+                    <strong>Requested On:</strong>
+                    {{ req.created_at }}
+                </p>
+
+
+            </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="message">
+
+            <h3>✅ No Compatible Requests</h3>
+
+            <p>
+                There are currently no pending blood
+                requests compatible with your blood group.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="back-button">
+
+        <a href="/donor/dashboard">
+
+            <button type="button">
+                Back to Donor Dashboard
+            </button>
+
+        </a>
+
+    </div>
+
+</body>
+
+</html>

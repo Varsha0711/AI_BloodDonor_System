@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Donor Notifications</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 40px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .notification {
+            background-color: white;
+            width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .message {
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .back {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <h1>🔔 Donor Notifications</h1>
+
+
+    {% if notifications %}
+
+        {% for notification in notifications %}
+
+            <div class="notification">
+
+                <h2>
+                    🩸 Blood Donation Notification
+                </h2>
+
+                <p class="message">
+                    {{ notification.message }}
+                </p>
+
+                <p>
+                    <strong>Request ID:</strong>
+                    {{ notification.request_id }}
+                </p>
+
+                <p class="status">
+                    Status:
+                    {% if notification.is_read == "No" %}
+                        New
+                    {% else %}
+                        Read
+                    {% endif %}
+                </p>
+
+                <p class="date">
+                    Received On:
+                    {{ notification.created_at }}
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="notification">
+
+            <h3>No notifications yet.</h3>
+
+            <p>
+                You will receive a notification when a patient
+                selects you for a blood request.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <div class="back">
+
+        <a href="/donor/dashboard">
+
+            <button type="button">
+                Back to Donor Dashboard
+            </button>
+
+        </a>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Blood Inventory - LifeLink Admin</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background-color: #f5f7fb;
+
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            background-color: #17447e;
+
+            color: white;
+
+            padding: 20px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        .buttons {
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+
+        .button {
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            background-color: #315f96;
+
+            font-weight: bold;
+        }
+
+
+        .logout {
+
+            background-color: #c62828;
+        }
+
+
+        /* MAIN */
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 35px;
+        }
+
+
+        .title {
+
+            margin-bottom: 25px;
+        }
+
+
+        .title h2 {
+
+            color: #17447e;
+
+            margin-bottom: 5px;
+        }
+
+
+        .title p {
+
+            color: #666;
+        }
+
+
+        /* TABLE BOX */
+
+        .inventory-box {
+
+            background-color: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        th,
+        td {
+
+            padding: 14px;
+
+            border-bottom: 1px solid #ddd;
+
+            text-align: center;
+        }
+
+
+        th {
+
+            background-color: #17447e;
+
+            color: white;
+        }
+
+
+        tr:hover {
+
+            background-color: #f5f7fb;
+        }
+
+
+        /* BLOOD GROUP */
+
+        .blood-group {
+
+            font-weight: bold;
+
+            color: #c62828;
+
+            font-size: 18px;
+        }
+
+
+        /* STOCK */
+
+        .stock {
+
+            font-weight: bold;
+
+            font-size: 18px;
+        }
+
+
+        .low {
+
+            color: #c62828;
+        }
+
+
+        .medium {
+
+            color: #e65100;
+        }
+
+
+        .good {
+
+            color: #2e7d32;
+        }
+
+
+        .empty {
+
+            padding: 30px;
+
+            text-align: center;
+
+            color: #777;
+        }
+
+
+        /* BACK BUTTON */
+
+        .back-area {
+
+            text-align: center;
+
+            margin-top: 25px;
+        }
+
+
+        .back {
+
+            display: inline-block;
+
+            background-color: #17447e;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 12px 25px;
+
+            border-radius: 6px;
+
+            font-weight: bold;
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            🩸  Admin
+        </h1>
+
+
+        <div class="buttons">
+
+            <a
+                href="/admin/dashboard"
+                class="button">
+
+                Dashboard
+
+            </a>
+
+
+            <a
+                href="/admin/users"
+                class="button">
+
+                Users
+
+            </a>
+
+
+            <a
+                href="/admin/logout"
+                class="button logout">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container">
+
+
+        <div class="title">
+
+            <h2>
+                🩸 Blood Inventory Management
+            </h2>
+
+            <p>
+                View the current blood stock available in the system.
+            </p>
+<div style="text-align: center; margin-top: 20px;">
+
+    <a
+        href="/admin/inventory/add"
+        style="
+            display: inline-block;
+            background-color: #2e7d32;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+        ">
+
+        ➕ Add Blood Stock
+
+    </a>
+
+</div>
+        </div>
+
+
+
+        <div class="inventory-box">
+
+
+            <table>
+
+
+                <tr>
+
+                    <th>
+                        Inventory ID
+                    </th>
+
+                    <th>
+                        Blood Group
+                    </th>
+
+                    <th>
+                        Units Available
+                    </th>
+
+                    <th>
+                        Blood Bank ID
+                    </th>
+
+                    <th>
+                        Last Updated
+                    </th>
+
+                   <th>
+    Stock Status
+</th>
+
+<th>
+    Action
+</th>
+
+                </tr>
+
+
+                {% for item in inventory %}
+
+
+                <tr>
+
+
+                    <td>
+                        {{ item.inventory_id }}
+                    </td>
+
+
+                    <td class="blood-group">
+                        {{ item.blood_group }}
+                    </td>
+
+
+                    <td class="stock">
+                        {{ item.units_available }}
+                    </td>
+
+
+                    <td>
+                        {{ item.blood_bank_id or "N/A" }}
+                    </td>
+
+
+                    <td>
+                        {{ item.last_updated }}
+                    </td>
+
+
+                    <td>
+
+
+                        {% if item.units_available <= 2 %}
+
+                            <span class="low">
+                                ⚠️ Low Stock
+                            </span>
+
+
+                        {% elif item.units_available <= 5 %}
+
+                            <span class="medium">
+                                ⚠️ Medium Stock
+                            </span>
+
+
+                        {% else %}
+
+                            <span class="good">
+                                ✅ Good Stock
+                            </span>
+
+                        {% endif %}
+
+
+                    </td>
+<td>
+
+    <a
+        href="/admin/inventory/update/{{ item.inventory_id }}"
+        style="
+            display: inline-block;
+            background-color: #17447e;
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            font-weight: bold;
+        ">
+
+        ✏️ Update
+
+    </a>
+
+</td>
+
+                </tr>
+
+
+                {% else %}
+
+
+                <tr>
+
+                    <td
+                        colspan="7"
+                        class="empty">
+
+                        No blood inventory records found.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </table>
+
+
+        </div>
+
+
+
+        <div class="back-area">
+
+            <a
+                href="/admin/dashboard"
+                class="back">
+
+                ← Back to Dashboard
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

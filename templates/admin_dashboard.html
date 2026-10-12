@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - LifeLink</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            margin: 0;
+            background-color: #f5f7fb;
+            color: #222;
+        }
+
+
+        /* HEADER */
+
+        .header {
+
+            background-color: #17447e;
+
+            color: white;
+
+            padding: 20px 40px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+
+        .header h1 {
+
+            margin: 0;
+
+            font-size: 28px;
+        }
+
+
+        .logout {
+
+            background-color: #c62828;
+
+            color: white;
+
+            text-decoration: none;
+
+            padding: 10px 18px;
+
+            border-radius: 6px;
+
+            font-weight: bold;
+        }
+
+
+        .logout:hover {
+
+            background-color: #a91f1f;
+        }
+
+
+        /* MAIN CONTAINER */
+
+        .container {
+
+            max-width: 1300px;
+
+            margin: auto;
+
+            padding: 35px;
+        }
+
+
+        /* WELCOME */
+
+        .welcome {
+
+            margin-bottom: 30px;
+        }
+
+
+        .welcome h2 {
+
+            margin: 0 0 8px;
+
+            color: #17447e;
+
+            font-size: 28px;
+        }
+
+
+        .welcome p {
+
+            margin: 0;
+
+            color: #666;
+
+            font-size: 16px;
+        }
+
+
+        /* DASHBOARD CARDS */
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(190px, 1fr));
+
+            gap: 20px;
+        }
+
+
+        .card {
+
+            background-color: white;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            text-align: center;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+        }
+
+
+        .card h2 {
+
+            color: #17447e;
+
+            font-size: 34px;
+
+            margin: 12px 0 0;
+        }
+
+
+        .card p {
+
+            color: #555;
+
+            font-weight: bold;
+
+            margin: 0;
+        }
+
+
+        /* INVENTORY */
+
+        .inventory {
+
+            background-color: white;
+
+            margin-top: 35px;
+
+            padding: 25px;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.08);
+        }
+
+
+        .inventory h2 {
+
+            color: #17447e;
+
+            margin-top: 0;
+        }
+
+
+        /* TABLE */
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            margin-top: 20px;
+        }
+
+
+        th,
+        td {
+
+            padding: 13px;
+
+            border-bottom: 1px solid #ddd;
+
+            text-align: center;
+        }
+
+
+        th {
+
+            background-color: #17447e;
+
+            color: white;
+        }
+
+
+        tr:hover {
+
+            background-color: #f5f7fb;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .header {
+
+                padding: 18px;
+
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+
+            .container {
+
+                padding: 20px;
+            }
+
+
+            .cards {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>
+            🩸  Admin
+        </h1>
+
+
+        <a
+            href="/admin/logout"
+            class="logout">
+
+            Logout
+
+        </a>
+
+    </div>
+
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="container">
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <h2>
+                Welcome, {{ admin_name }}
+            </h2>
+
+            <p>
+                System Administration Dashboard
+            </p>
+
+        </div>
+
+
+
+        <!-- STATISTICS -->
+
+        <div class="cards">
+
+
+            <!-- PATIENTS -->
+
+            <div class="card">
+
+                <p>
+                    Total Patients
+                </p>
+
+                <h2>
+                    {{ total_patients }}
+                </h2>
+
+            </div>
+
+
+
+            <!-- DONORS -->
+
+            <div class="card">
+
+                <p>
+                    Total Donors
+                </p>
+
+                <h2>
+                    {{ total_donors }}
+                </h2>
+
+            </div>
+
+
+
+            <!-- HOSPITALS -->
+
+            <div class="card">
+
+                <p>
+                    Total Hospitals
+                </p>
+
+                <h2>
+                    {{ total_hospitals }}
+                </h2>
+
+            </div>
+
+
+
+            <!-- REQUESTS -->
+
+            <div class="card">
+
+                <p>
+                    Total Blood Requests
+                </p>
+
+                <h2>
+                    {{ total_requests }}
+                </h2>
+
+            </div>
+
+
+
+            <!-- PENDING -->
+
+            <div class="card">
+
+                <p>
+                    Pending Requests
+                </p>
+
+                <h2>
+                    {{ pending_requests }}
+                </h2>
+
+            </div>
+
+
+
+            <!-- FULFILLED -->
+
+            <div class="card">
+
+                <p>
+                    Fulfilled Requests
+                </p>
+
+                <h2>
+                    {{ fulfilled_requests }}
+                </h2>
+
+            </div>
+
+
+        </div>
+<!-- LOW STOCK ALERT -->
+
+<div style="
+    background-color: #fff3cd;
+    border-left: 6px solid #c62828;
+    padding: 20px;
+    margin-top: 30px;
+    border-radius: 8px;
+">
+
+    <h2 style="
+        margin-top: 0;
+        color: #c62828;
+    ">
+
+        ⚠️ Blood Stock Alerts
+
+    </h2>
+
+
+    {% set low_stock_found = false %}
+
+
+    {% for item in inventory %}
+
+        {% if item.units_available <= 2 %}
+
+            {% set low_stock_found = true %}
+
+            <p style="
+                margin: 8px 0;
+                font-weight: bold;
+            ">
+
+                🩸 {{ item.blood_group }}
+                —
+                {{ item.units_available }} units remaining
+
+                {% if item.units_available == 0 %}
+
+                    <span style="color: #c62828;">
+                        🔴 CRITICAL
+                    </span>
+
+                {% else %}
+
+                    <span style="color: #e65100;">
+                        ⚠️ LOW STOCK
+                    </span>
+
+                {% endif %}
+
+            </p>
+
+        {% endif %}
+
+    {% endfor %}
+
+
+    {% if not low_stock_found %}
+
+        <p style="
+            color: #2e7d32;
+            font-weight: bold;
+        ">
+
+            ✅ All blood groups have sufficient stock.
+
+        </p>
+
+    {% endif %}
+
+</div>
+<div style="margin-top: 30px; text-align: center;">
+
+    <a href="/admin/users"
+       style="
+           display: inline-block;
+           background-color: #17447e;
+           color: white;
+           text-decoration: none;
+           padding: 13px 30px;
+           border-radius: 7px;
+           font-weight: bold;
+           font-size: 16px;
+       ">
+
+        👥 Manage Users
+
+    </a>
+<div style="margin-top: 15px; text-align: center;">
+
+    <a href="/admin/blood-requests"
+       style="
+           display: inline-block;
+           background-color: #17447e;
+           color: white;
+           text-decoration: none;
+           padding: 13px 30px;
+           border-radius: 7px;
+           font-weight: bold;
+           font-size: 16px;
+       ">
+
+        📋 Manage Blood Requests
+
+    </a>
+<div style="margin-top: 15px; text-align: center;">
+
+    <a href="/admin/screenings"
+       style="
+           display: inline-block;
+           background-color: #17447e;
+           color: white;
+           text-decoration: none;
+           padding: 13px 30px;
+           border-radius: 7px;
+           font-weight: bold;
+           font-size: 16px;
+       ">
+
+        🏥 Hospital Screening
+
+    </a>
+<div style="margin-top: 15px; text-align: center;">
+
+    <a href="/admin/inventory"
+       style="
+           display: inline-block;
+           background-color: #17447e;
+           color: white;
+           text-decoration: none;
+           padding: 13px 30px;
+           border-radius: 7px;
+           font-weight: bold;
+           font-size: 16px;
+       ">
+
+        🩸 Manage Blood Inventory
+
+    </a>
+
+</div>
+</div>
+</div>
+</div>
+
+        <!-- BLOOD INVENTORY -->
+
+        <div class="inventory">
+
+
+            <h2>
+                🩸 Blood Inventory
+            </h2>
+
+
+            <table>
+
+
+                <tr>
+
+                    <th>
+                        Blood Group
+                    </th>
+
+                    <th>
+                        Units Available
+                    </th>
+
+                </tr>
+
+
+
+                {% for item in inventory %}
+
+
+                <tr>
+
+                    <td>
+                        {{ item.blood_group }}
+                    </td>
+
+                    <td>
+                        {{ item.units_available }}
+                    </td>
+
+                </tr>
+
+
+                {% else %}
+
+
+                <tr>
+
+                    <td colspan="2">
+
+                        No blood inventory records found.
+
+                    </td>
+
+                </tr>
+
+
+                {% endfor %}
+
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

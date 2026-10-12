@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Patient Notifications - LifeLink</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #b30000, #e63946);
+            color: white;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            background: white;
+            color: #b30000;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        .title {
+            margin-bottom: 25px;
+        }
+
+        .title h2 {
+            color: #b30000;
+            margin-bottom: 8px;
+        }
+
+        .title p {
+            color: #666;
+        }
+
+        .notification-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            border-left: 5px solid #e63946;
+        }
+
+        .notification-card h3 {
+            color: #b30000;
+            margin-bottom: 10px;
+        }
+
+        .notification-card p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .date {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .request-id {
+            display: inline-block;
+            background: #ffe5e5;
+            color: #b30000;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .empty {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .empty-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .empty h3 {
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #888;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+
+        <h1>🔔 LifeLink Notifications</h1>
+
+        <a href="/patient/dashboard" class="back-btn">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <div class="container">
+
+        <div class="title">
+
+            <h2>Patient Notifications</h2>
+
+            <p>
+                Stay updated about your blood requests and donor screening status.
+            </p>
+
+        </div>
+
+
+        {% if notifications %}
+
+            {% for notification in notifications %}
+
+                <div class="notification-card">
+
+                    {% if notification.request_id %}
+                        <span class="request-id">
+                            Blood Request #{{ notification.request_id }}
+                        </span>
+                    {% endif %}
+
+                    <h3>🔔 Notification</h3>
+
+                    <p>
+                        {{ notification.message }}
+                    </p>
+
+                    <div class="date">
+                        {{ notification.created_at }}
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🔔
+                </div>
+
+                <h3>No Notifications</h3>
+
+                <p>
+                    You don't have any notifications yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

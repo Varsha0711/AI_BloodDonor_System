@@ -592,30 +592,48 @@ def find_donors():
     # GET COMPATIBLE DONORS
     # =====================================================
 
-    query = """
-    SELECT
-        request_id,
-        patient_id,
-        requested_blood_group,
-        units_required,
-        urgency,
-        urgency_priority,
-        hospital_name,
-        donor_id,
-        donor_blood_group,
-        donor_phone,
-        donor_location,
-        age,
-        gender,
-        last_donation_date,
-        distance_km
-    FROM donor_recommendations
-    WHERE patient_id = %s
-    ORDER BY
-        urgency_priority ASC,
-        request_id ASC,
-        distance_km ASC
-    """
+    
+query = """
+SELECT
+    br.request_id,
+    br.patient_id,
+    br.blood_group AS requested_blood_group,
+    br.units_required,
+    br.urgency,
+    CASE
+        WHEN br.urgency = 'Critical' THEN 1
+        WHEN br.urgency = 'Urgent' THEN 2
+        ELSE 3
+    END AS urgency_priority,
+    br.hospital_name,
+    d.donor_id,
+    d.blood_group AS donor_blood_group,
+    d.phone AS donor_phone,
+    d.location AS donor_location,
+    d.age,
+    d.gender,
+    d.last_donation_date,
+    drm.distance_km
+FROM blood_requests br
+JOIN donors d
+    ON d.blood_group = br.blood_group
+LEFT JOIN donor_request_matches drm
+    ON drm.request_id = br.request_id
+    AND drm.donor_id = d.donor_id
+WHERE br.patient_id = %s
+    AND br.status = 'Pending'
+    AND d.availability = 'Available'
+    AND d.age BETWEEN 18 AND 65
+    AND (
+        d.last_donation_date IS NULL
+        OR d.last_donation_date <= DATE_SUB(CURDATE(), INTERVAL 90 DAY)
+    )
+ORDER BY
+    urgency_priority ASC,
+    br.request_id ASC,
+    drm.distance_km ASC
+"""
+
 
 
     cursor.execute(query, (patient_id,))

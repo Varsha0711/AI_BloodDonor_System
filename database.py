@@ -1,4 +1,4 @@
-```python
+
 import os
 import mysql.connector
 
@@ -11,4 +11,3 @@ def get_db_connection():
         port=int(os.getenv("DB_PORT", "3306")),
         ssl_disabled=False
     )
-```
